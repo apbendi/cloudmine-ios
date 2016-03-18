@@ -8,13 +8,14 @@
 
 /** @file */
 
-#import "AFNetworking.h"
 #import "CMFileUploadResult.h"
 #import "CMDeviceTokenResult.h"
 #import "CMUserAccountResult.h"
 #import "CMSocialLoginViewController.h"
 #import "CMChannelResponse.h"
 #import "CMViewChannelsResponse.h"
+
+@import AFNetworking;
 
 @class CMUser;
 @class CMServerFunction;
