@@ -227,7 +227,7 @@ NSString * const CMStoreObjectDeletedNotification = @"CMStoreObjectDeletedNotifi
 
 #pragma mark - Push Notifications
 
-- (void)registerForPushNotifications:(UIRemoteNotificationType)notificationType callback:(CMWebServiceDeviceTokenCallback)callback;
+- (void)registerForPushNotifications:(NSInteger)notificationType callback:(CMWebServiceDeviceTokenCallback)callback;
 {
     [self registerForPushNotifications:notificationType user:self.user callback:callback];
 }

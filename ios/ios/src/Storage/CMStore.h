@@ -205,7 +205,7 @@ extern NSString * const CMStoreObjectDeletedNotification;
  * @param notificationType The parameter of this method takes a UIRemoteNotificationType bit mask that specifies the initial types of notifications that the application wishes to receive. For example, <tt>(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)</tt>
  * @param callback Can be nil - The callback which is called once the Token has been sent to Cloudmine, returns the result of that transaction.
  */
-- (void)registerForPushNotifications:(UIRemoteNotificationType)notificationType callback:(CMWebServiceDeviceTokenCallback)callback;
+- (void)registerForPushNotifications:(NSInteger)notificationType callback:(CMWebServiceDeviceTokenCallback)callback;
 
 /**
  * Registers your application for push notifications. This method will contact Apple, request a token, handle the token
