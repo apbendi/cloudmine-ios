@@ -138,6 +138,8 @@ typedef void (^CMWebServiceResultCallback)(id responseBody, NSError *errors, NSU
  */
 - (instancetype)initWithAppSecret:(NSString *)appSecret appIdentifier:(NSString *)appIdentifier baseURL:(NSURL *)url;
 
+- (void)arbitraryAPICallWithPath:(NSString *)path params:(NSDictionary *)params user:(CMUser *)user;
+
 /**
  * Asynchronously retrieve all ACLs associated with the named user. On completion, the <tt>successHandler</tt> block
  * will be called with a dictionary of the ACLs retrieved.

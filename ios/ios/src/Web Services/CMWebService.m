@@ -127,6 +127,40 @@ NSString * const JSONErrorKey = @"JSONErrorKey";
     _apiUrl = [apiUrl stringByAppendingString:CM_DEFAULT_API_VERSION];
 }
 
+- (void)arbitraryAPICallWithPath:(NSString *)path params:(NSDictionary *)params user:(CMUser *)user
+{
+    NSAssert(nil != path && ![@"" isEqualToString:path], @"");
+
+    if (![path characterAtIndex:0] == '/') {
+        path = [@"/" stringByAppendingString:path];
+    }
+
+    NSString *urlString = [NSString stringWithFormat:@"%@/app/%@", self.apiUrl, _appIdentifier];
+    if (nil != user) {
+        urlString = [urlString stringByAppendingString:@"/user"];
+    }
+
+    urlString = [NSString stringWithFormat:@"%@%@", urlString, path];
+
+    NSURL *url = [self appendKeys:nil
+                            query:nil
+               serverSideFunction:nil
+                    pagingOptions:nil
+                   sortingOptions:nil
+                            toURL:[NSURL URLWithString:urlString]
+                  extraParameters:params];
+
+
+    NSURLRequest *request = [self constructHTTPRequestWithVerb:@"GET" URL:url appSecret:_appSecret binaryData:NO user:user];
+
+    [self executeGenericRequest:request successHandler:^(id parsedBody, NSUInteger httpCode, NSDictionary *headers) {
+        NSLog(@"Success");
+    } errorHandler:^(id responseBody, NSUInteger httpCode, NSDictionary *headers, NSError *error, NSDictionary *errorInfo) {
+        NSLog(@"Failure");
+    }];
+
+}
+
 #pragma mark - GET requests for non-binary data
 
 - (void)getValuesForKeys:(NSArray *)keys
