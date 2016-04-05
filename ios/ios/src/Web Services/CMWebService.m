@@ -127,20 +127,34 @@ NSString * const JSONErrorKey = @"JSONErrorKey";
     _apiUrl = [apiUrl stringByAppendingString:CM_DEFAULT_API_VERSION];
 }
 
-- (void)arbitraryAPICallWithPath:(NSString *)path params:(NSDictionary *)params user:(CMUser *)user
+- (void)arbitraryAPICallWithPath:(NSString *)path verb:(NSString *)verb params:(NSDictionary *)params user:(CMUser *)user
 {
-    NSAssert(nil != path && ![@"" isEqualToString:path], @"");
+    NSAssert(nil != path && ![@"" isEqualToString:path], @"Arbitrary API call must include a valid API path");
 
-    if (![path characterAtIndex:0] == '/') {
+    if (!([path characterAtIndex:0] == '/')) {
         path = [@"/" stringByAppendingString:path];
     }
+
+    if (nil == verb) {
+        verb = @"GET";
+    }
+
+    verb = [verb uppercaseString];
+
+    NSAssert([@"GET" isEqualToString:verb] || [@"POST" isEqualToString:verb] ||
+             [@"PUT" isEqualToString:verb] || [@"DELETE" isEqualToString:verb], @"Arbitrary API call must be one of: GET, POST, PUT, or DELETE");
 
     NSString *urlString = [NSString stringWithFormat:@"%@/app/%@", self.apiUrl, _appIdentifier];
     if (nil != user) {
         urlString = [urlString stringByAppendingString:@"/user"];
     }
 
-    urlString = [NSString stringWithFormat:@"%@%@", urlString, path];
+    urlString = [urlString stringByAppendingString:path];
+
+    NSDictionary *urlParams = nil;
+    if ([@"GET" isEqualToString:verb] || [@"DELETE" isEqualToString:verb]) {
+        urlParams = params;
+    }
 
     NSURL *url = [self appendKeys:nil
                             query:nil
@@ -148,10 +162,15 @@ NSString * const JSONErrorKey = @"JSONErrorKey";
                     pagingOptions:nil
                    sortingOptions:nil
                             toURL:[NSURL URLWithString:urlString]
-                  extraParameters:params];
+                  extraParameters:urlParams];
 
 
-    NSURLRequest *request = [self constructHTTPRequestWithVerb:@"GET" URL:url appSecret:_appSecret binaryData:NO user:user];
+    NSMutableURLRequest *request = [self constructHTTPRequestWithVerb:verb URL:url appSecret:_appSecret binaryData:NO user:user];
+    if ([@"POST" isEqualToString:verb] || [@"PUT" isEqualToString:verb]) {
+        NSError *jsonifyError = nil;
+        NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:&jsonifyError];
+        request.HTTPBody = requestData;
+    }
 
     [self executeGenericRequest:request successHandler:^(id parsedBody, NSUInteger httpCode, NSDictionary *headers) {
         NSLog(@"Success");
