@@ -55,6 +55,14 @@ describe(@"CMDate", ^{
     it(@"should have the same timeIntervalSinceReferenceDate as NSDate", ^{
         [[ theValue([CMDate timeIntervalSinceReferenceDate]) should] equal:[NSDate timeIntervalSinceReferenceDate] withDelta:1.0];
     });
+
+    it(@"date comparisons should be identical to NSDate", ^{
+        NSDate *cocoaDate = [NSDate dateWithTimeIntervalSince1970:1461963196.3028159];
+        NSDate *anotherDate = [NSDate dateWithTimeIntervalSince1970:1461963196.30281];
+        CMDate *cloudDate = [[CMDate alloc] initWithDate:anotherDate];
+
+        [[theValue([cloudDate isEqualToDate:cocoaDate]) should] equal:theValue([anotherDate isEqualToDate:cocoaDate])];
+    });
     
 });
 
