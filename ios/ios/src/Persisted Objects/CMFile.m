@@ -196,12 +196,17 @@ NSString * const _mimeTypeKey = @"mime";
     [coder encodeObject:mimeType forKey:_mimeTypeKey];
 }
 
-- (BOOL)writeToLocation:(NSURL *)url options:(NSFileWrapperWritingOptions)options {
+- (BOOL)writeToLocation:(NSURL *)url
+{
     return [NSKeyedArchiver archiveRootObject:self toFile:[url path]];
 }
 
+- (BOOL)writeToLocation:(NSURL *)url options:(NSFileWrapperWritingOptions)options {
+    return [self writeToLocation:url];
+}
+
 - (BOOL)writeToCache {
-    return [self writeToLocation:[self cacheLocation] options:NSFileWrapperWritingAtomic];
+    return [self writeToLocation:[self cacheLocation]];
 }
 
 - (NSURL *)cacheLocation {
