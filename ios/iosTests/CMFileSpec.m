@@ -104,10 +104,9 @@ describe(@"CMFile", ^{
         
 
         it(@"should throw an exception if the object is subsequently saved with a user", ^{
-            CMUser *user = [[CMUser alloc] initWithEmail:@"test@test.com" andPassword:@"pass"];
             [file save:nil];
             [[theValue([file ownershipLevel]) should] equal:theValue(CMObjectOwnershipAppLevel)];
-            [[theBlock(^{ [file saveWithUser:user callback:nil]; }) should] raise];
+            [[theBlock(^{ [file saveAtUserLevel:nil]; }) should] raise];
         });
     });
     
@@ -220,7 +219,7 @@ describe(@"CMFile", ^{
             user.token = @"1234";
             user.tokenExpiration = [NSDate dateWithTimeIntervalSinceNow:1000.0]; // set it to the future
 
-            [file saveWithUser:user callback:nil];
+            [file saveAtUserLevel:nil];
             [[theValue(file.ownershipLevel) should] equal:theValue(CMObjectOwnershipUserLevel)];
         });
     });
