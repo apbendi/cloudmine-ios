@@ -1,5 +1,46 @@
 #import "Kiwi.h"
 #import "CMDate.h"
+#import "CMObject.h"
+#import "CMObjectEncoder.h"
+#import "CMObjectDecoder.h"
+
+@interface CMDateSerialWrapper : CMObject
+- (instancetype)initWithNSDate:(NSDate *)nsDate andCMDate:(CMDate *)cmDate;
+@property (nonatomic) NSDate *nsDate;
+@property (nonatomic) CMDate *cmDate;
+@end
+
+@implementation CMDateSerialWrapper
+
+- (instancetype)initWithNSDate:(NSDate *)nsDate andCMDate:(CMDate *)cmDate
+{
+    self = [super init];
+    if (nil == self) { return nil; }
+    
+    _nsDate = nsDate;
+    _cmDate = cmDate;
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (nil == self) { return nil; }
+    
+    _nsDate = [aDecoder decodeObjectForKey:@"nsDate"];
+    _cmDate = [aDecoder decodeObjectForKey:@"cmDate"];
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.nsDate forKey:@"nsDate"];
+    [aCoder encodeObject:self.cmDate forKey:@"cmDate"];
+}
+
+@end
 
 SPEC_BEGIN(CMDateSerializationSpec)
 
@@ -53,6 +94,21 @@ describe(@"CMDateSerialization", ^{
         
         [[theValue([dateOne isEqual:dateTwo]) should] equal:@YES];
         [[theValue([dateTwo isEqual:dateOne]) should] equal:@NO];
+    });
+    
+    // MARK: Document Serialization De-Serialization type changes
+    
+    it(@"should (not!) convert NSDate to CMDate during encode/decode cycle", ^{
+        NSDate *originalNSDate = [NSDate new];
+        CMDateSerialWrapper *wrapper = [[CMDateSerialWrapper alloc] initWithNSDate:originalNSDate andCMDate:nil];
+        
+        NSDictionary *encodedWrapper = [CMObjectEncoder encodeObjects:@[wrapper]];
+        CMDateSerialWrapper *codedWrapper = [CMObjectDecoder decodeObjects:encodedWrapper].firstObject;
+        
+        [[theValue([codedWrapper.nsDate isKindOfClass:[NSDate class]]) should] equal:@YES];
+        [[theValue([codedWrapper.nsDate isKindOfClass:[CMDate class]]) should] equal:@YES];
+        // ^Current behvior
+        // Desired behavior: [[theValue([codedWrapper.nsDate isKindOfClass:[CMDate class]]) should] equal:@NO];
     });
 });
 
