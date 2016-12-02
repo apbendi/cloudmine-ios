@@ -1,6 +1,7 @@
 #import "Kiwi.h"
 #import "CMDate.h"
 #import "CMObject.h"
+#import "CMObjectSerialization.h"
 #import "CMObjectEncoder.h"
 #import "CMObjectDecoder.h"
 
@@ -109,6 +110,20 @@ describe(@"CMDateSerialization", ^{
         [[theValue([codedWrapper.nsDate isKindOfClass:[CMDate class]]) should] equal:@YES];
         // ^Current behvior
         // Desired behavior: [[theValue([codedWrapper.nsDate isKindOfClass:[CMDate class]]) should] equal:@NO];
+    });
+    
+    it(@"should encode an NSDate with the correct timestamp schema", ^{
+        NSDate *originalNSDate = [NSDate dateWithTimeIntervalSince1970:1.0f];
+        CMDateSerialWrapper *wrapper = [[CMDateSerialWrapper alloc] initWithNSDate:originalNSDate andCMDate:nil];
+        
+        NSDictionary *encodedWrapperObject = [[CMObjectEncoder encodeObjects:@[wrapper]] objectForKey:wrapper.objectId];
+        
+        NSDictionary *encodedNSDate = [encodedWrapperObject objectForKey:@"nsDate"];
+        NSString *encodedNSDateCMClass = [encodedNSDate objectForKey:CMInternalClassStorageKey];
+        NSNumber *encodedNSDateCMStamp = [encodedNSDate objectForKey:@"timestamp"];
+        
+        [[@"datetime" should] equal:encodedNSDateCMClass];
+        [[@1.0 should] equal:encodedNSDateCMStamp];
     });
 });
 
