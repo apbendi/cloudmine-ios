@@ -187,6 +187,7 @@
 		AAE9220F194B8B7B004DA1AC /* venues.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAE9220E194B8B7B004DA1AC /* venues.plist */; };
 		AAE92211194B923D004DA1AC /* CMWebServiceIntegrationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE92210194B923D004DA1AC /* CMWebServiceIntegrationSpec.m */; };
 		AAFB0B8D194B45D5008F2B68 /* CMResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFB0B8C194B45D5008F2B68 /* CMResponseSpec.m */; };
+		B474B4A61DF217F500719FB3 /* CMDateSerializationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B474B4A51DF217F500719FB3 /* CMDateSerializationSpec.m */; };
 		B4AD7C521C80FF6D00D9F1D1 /* MARTNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AD7C461C80FF6C00D9F1D1 /* MARTNSObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B4AD7C541C80FF6D00D9F1D1 /* RTIvar.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AD7C491C80FF6C00D9F1D1 /* RTIvar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B4AD7C551C80FF6D00D9F1D1 /* RTMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AD7C4B1C80FF6C00D9F1D1 /* RTMethod.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -457,6 +458,7 @@
 		AAFB0B8C194B45D5008F2B68 /* CMResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMResponseSpec.m; sourceTree = "<group>"; };
 		AF2E9ED71CBDDC65DC88789E /* Pods-cloudmine-iosTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cloudmine-iosTests.test.xcconfig"; path = "../Pods/Target Support Files/Pods-cloudmine-iosTests/Pods-cloudmine-iosTests.test.xcconfig"; sourceTree = "<group>"; };
 		B2A33E73BEDE10A94973E9FE /* Pods-cloudmine-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cloudmine-ios.release.xcconfig"; path = "../Pods/Target Support Files/Pods-cloudmine-ios/Pods-cloudmine-ios.release.xcconfig"; sourceTree = "<group>"; };
+		B474B4A51DF217F500719FB3 /* CMDateSerializationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMDateSerializationSpec.m; sourceTree = "<group>"; };
 		B4AD7C441C80FF6C00D9F1D1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B4AD7C451C80FF6C00D9F1D1 /* MARTNSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARTNSObject.h; sourceTree = "<group>"; };
 		B4AD7C461C80FF6C00D9F1D1 /* MARTNSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARTNSObject.m; sourceTree = "<group>"; };
@@ -886,6 +888,7 @@
 				7AD93BAE14D1CCFE00CC1CC9 /* CMFileSpec.m */,
 				7A0D7CD31581097200C7C476 /* CMObjectSpec.m */,
 				AABEE9FA19088809007A26BA /* CMDateSpec.m */,
+				B474B4A51DF217F500719FB3 /* CMDateSerializationSpec.m */,
 				AA5C462E190C154C0086FBD6 /* CMObjectClassNameRegistrySpec.m */,
 				AA7345D01949E138007AAEB0 /* CMUntypedObjectSpec.m */,
 				7A4A6F2814FFF08100B95D13 /* CMUserSpec.m */,
@@ -1257,6 +1260,7 @@
 			files = (
 				AA7345CC19491F16007AAEB0 /* UIImageWithCloudMineIntegrationSpec.m in Sources */,
 				AA5EB16E1A3FEB560081DAC1 /* IOS-29Spec.m in Sources */,
+				B474B4A61DF217F500719FB3 /* CMDateSerializationSpec.m in Sources */,
 				AA5C462F190C154C0086FBD6 /* CMObjectClassNameRegistrySpec.m in Sources */,
 				7A308A4414799134008ADD3C /* CMWebServiceSpec.m in Sources */,
 				AA7345D11949E138007AAEB0 /* CMUntypedObjectSpec.m in Sources */,
