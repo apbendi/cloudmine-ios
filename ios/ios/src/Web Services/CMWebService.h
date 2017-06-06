@@ -327,6 +327,13 @@ typedef void (^CMWebServiceResultCallback)(id responseBody, NSError *errors, NSU
              successHandler:(CMWebServiceObjectFetchSuccessCallback)successHandler
                errorHandler:(CMWebServiceFetchFailureCallback)errorHandler;
 
+- (void)deleteValuesForQuery:(NSString *)searchQuery
+          serverSideFunction:(CMServerFunction *)function
+                        user:(CMUser *)user
+             extraParameters:(NSDictionary *)params
+              successHandler:(CMWebServiceObjectFetchSuccessCallback)successHandler
+                errorHandler:(CMWebServiceFetchFailureCallback)errorHandler;
+
 /**
  * Asynchronously delete the ACL with the specified key, associated with the specified user. On completion, the <tt>successHandler</tt> block will be called
  * with a dictionary containing the status of the deletion.

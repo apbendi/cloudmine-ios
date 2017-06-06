@@ -344,15 +344,44 @@ NSString * const JSONErrorKey = @"JSONErrorKey";
                        user:(CMUser *)user
             extraParameters:(NSDictionary *)params
              successHandler:(CMWebServiceObjectFetchSuccessCallback)successHandler
-               errorHandler:(CMWebServiceFetchFailureCallback)errorHandler {
-    NSURLRequest *request = [self constructHTTPRequestWithVerb:@"DELETE" URL:[[self constructDataUrlAtUserLevel:(user != nil)
-                                                                                                       withKeys:keys
-                                                                                         withServerSideFunction:function
-                                                                                                extraParameters:params]
-                                                                              URLByAppendingAndEncodingQueryParameter:@"all" andValue:@"true"]
+               errorHandler:(CMWebServiceFetchFailureCallback)errorHandler
+{
+    NSURL *requestURL = [self constructDataUrlAtUserLevel:(user != nil)
+                                                 withKeys:keys
+                                   withServerSideFunction:function extraParameters:params];
+    
+    requestURL = [requestURL URLByAppendingAndEncodingQueryParameter:@"all" andValue:@"true"];
+    
+    NSURLRequest *request = [self constructHTTPRequestWithVerb:@"DELETE"
+                                                           URL:requestURL
                                                      appSecret:_appSecret
                                                     binaryData:NO
                                                           user:user];
+    
+    [self executeRequest:request successHandler:successHandler errorHandler:errorHandler];
+}
+
+- (void)deleteValuesForQuery:(NSString *)searchQuery
+         serverSideFunction:(CMServerFunction *)function
+                       user:(CMUser *)user
+            extraParameters:(NSDictionary *)params
+             successHandler:(CMWebServiceObjectFetchSuccessCallback)successHandler
+               errorHandler:(CMWebServiceFetchFailureCallback)errorHandler
+{
+    
+    NSURL *requestURL = [self constructDataUrlAtUserLevel:(user != nil)
+                                                  withQuery:searchQuery
+                                    withServerSideFunction:function
+                                          extraParameters:params];
+    
+    //requestURL = [requestURL URLByAppendingAndEncodingQueryParameter:searchQuery andValue:@"true"];
+    
+    NSURLRequest *request = [self constructHTTPRequestWithVerb:@"DELETE"
+                                                           URL:requestURL
+                                                     appSecret:_appSecret
+                                                    binaryData:NO
+                                                          user:user];
+    
     [self executeRequest:request successHandler:successHandler errorHandler:errorHandler];
 }
 
@@ -2256,6 +2285,20 @@ NSString * const JSONErrorKey = @"JSONErrorKey";
     }
     
     return [self appendKeys:keys query:nil serverSideFunction:function pagingOptions:nil sortingOptions:nil toURL:url extraParameters:params];
+}
+- (NSURL *)constructDataUrlAtUserLevel:(BOOL)atUserLevel
+                             withQuery:(NSString *)query
+                withServerSideFunction:(CMServerFunction *)function
+                       extraParameters:(NSDictionary *)params
+{
+    NSURL *url;
+    if (atUserLevel) {
+        url = [NSURL URLWithString:[self.apiUrl stringByAppendingFormat:@"/app/%@/user/data", _appIdentifier]];
+    } else {
+        url = [NSURL URLWithString:[self.apiUrl stringByAppendingFormat:@"/app/%@/data", _appIdentifier]];
+    }
+    
+    return [self appendKeys:nil query:query serverSideFunction:function pagingOptions:nil sortingOptions:nil toURL:url extraParameters:params];
 }
 
 - (NSURL *)constructAccountUrlWithUserIdentifier:(NSString *)userId
